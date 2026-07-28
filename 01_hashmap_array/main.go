@@ -11,6 +11,43 @@ func main() {
 	fmt.Println(f)
 }
 
+// Day 4: Group Anagrams
+func GroupAnagrams(strs []string) [][]string {
+	groups := make(map[[26]int][]string)
+
+	for _, s := range strs {
+		var count [26]int
+		for _, c := range s {
+			count[c-'a']++
+		}
+
+		groups[count] = append(groups[count], s)
+	}
+
+	result := make([][]string, 0)
+	for _, group := range groups {
+		result = append(result, group)
+	}
+	return result
+}
+func GroupAnagrams2(strs []string) [][]string {
+	m := make(map[string][]string)
+	for _, str := range strs {
+		sbyte := []byte(str)
+		slices.Sort(sbyte)
+
+		key := string(sbyte)
+		m[key] = append(m[key], str)
+	}
+
+	result := make([][]string, 0, len(m))
+	for _, v := range m {
+		result = append(result, v)
+	}
+
+	return result
+}
+
 // Day 3: Valid Anagram
 func ValidAnagram(s, t string) bool {
 	sbyte := []byte(s)
