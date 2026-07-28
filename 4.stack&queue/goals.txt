@@ -1,0 +1,4 @@
+Day 1: Valid Parentheses
+Day 2: Min Stack
+Day 3: Daily Temperatures
+Day 4: Largest Rectangle in Histogram
