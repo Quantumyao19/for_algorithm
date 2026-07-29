@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"slices"
+	"sort"
 )
 
 func main() {
@@ -11,22 +12,53 @@ func main() {
 	fmt.Println(f)
 }
 
+// Day 5: Top K Frequent Elements
+func TopKFrequentElements(nums []int, k int) []int {
+	var res []int
+	m := make(map[int]int)
+
+	for _, num := range nums {
+		m[num]++
+	}
+
+	type Pair struct {
+		num  int
+		freq int
+	}
+
+	pairs := []Pair{}
+	for num, freq := range m {
+		pairs = append(pairs, Pair{
+			num:  num,
+			freq: freq,
+		})
+	}
+	sort.Slice(pairs, func(i, j int) bool {
+		return pairs[i].freq > pairs[j].freq
+	})
+
+	for i := 0; i < k; i++ {
+		res = append(res, pairs[i].num)
+	}
+
+	return res
+}
+
 // Day 4: Group Anagrams
 func GroupAnagrams(strs []string) [][]string {
-	groups := make(map[[26]int][]string)
+	m := make(map[[26]int][]string)
 
-	for _, s := range strs {
+	for _, str := range strs {
 		var count [26]int
-		for _, c := range s {
-			count[c-'a']++
+		for _, s := range str {
+			count[s-'a']++
 		}
-
-		groups[count] = append(groups[count], s)
+		m[count] = append(m[count], str)
 	}
 
 	result := make([][]string, 0)
-	for _, group := range groups {
-		result = append(result, group)
+	for _, v := range m {
+		result = append(result, v)
 	}
 	return result
 }
