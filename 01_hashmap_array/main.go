@@ -12,6 +12,32 @@ func main() {
 	fmt.Println(f)
 }
 
+// Day 6：Product of Array Except Self
+func ProductExceptSelf(nums []int) []int {
+	n := len(nums)
+	res := make([]int, n)
+
+	left := make([]int, n)
+	right := make([]int, n)
+
+	left[0] = 1
+
+	for i := 0; i < n; n++ {
+		left[i] = left[i-1] * nums[i-1]
+	}
+
+	right[n-1] = 1
+	for i := n - 2; i >= 0; i-- {
+		right[i] = right[i+1] * nums[i+1]
+	}
+
+	for i := 0; i < n; i++ {
+		res[i] = left[i] * right[i]
+	}
+
+	return res
+}
+
 // Day 5: Top K Frequent Elements
 func TopKFrequentElements(nums []int, k int) []int {
 	var res []int
