@@ -1,18 +1,60 @@
 package main
 
 import (
+	"sort"
 	"strings"
 )
 
 func main() {}
+
+// Day 4: 3Sum
+func ThreeSum(nums []int) [][]int {
+	sort.Ints(nums)
+	var res [][]int
+
+	for i := 0; i < len(nums)-2; i++ {
+		if i > 0 && nums[i] == nums[i-1] {
+			continue
+		}
+
+		start := nums[i]
+		left := i + 1
+		right := len(nums) - 1
+
+		for left < right {
+			sum := start + nums[left] + nums[right]
+			if sum == 0 {
+				res = append(res, []int{start, nums[left], nums[right]})
+
+				for left < right && nums[left] == nums[left+1] {
+					left++
+				}
+
+				for left < right && nums[right] == nums[right-1] {
+					right--
+				}
+
+				left++
+				right--
+
+			} else if sum < 0 {
+				left++
+			} else {
+				right--
+			}
+
+		}
+	}
+	return res
+}
 
 // Day 3: Container With Most Water
 func ContainerWithMostWater(nums []int) int {
 	right := len(nums) - 1
 	left := 0
 	maxArea := 0
-	var area int
 	for left < right {
+		var area int
 		area = (right - left) * min(nums[left], nums[right])
 		if area > maxArea {
 			maxArea = area
