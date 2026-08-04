@@ -1,8 +1,14 @@
 package main
 
-import "slices"
+import (
+	"fmt"
+	"slices"
+)
 
-func main() {}
+func main() {
+	var count1, count2 [5]int
+	fmt.Println(count1 == count2)
+}
 
 // Day 1: Longest Substring Without Repeating Characters
 func LengthOfLongestSubstring(s string) int {
@@ -46,8 +52,7 @@ func PermutationInString2(s1 string, s2 string) bool {
 		return false
 	}
 
-	var count1 [26]int
-	var count2 [26]int
+	var count1, count2 [26]int
 
 	for i := range s1 {
 		count1[s1[i]-'a']++
@@ -60,13 +65,11 @@ func PermutationInString2(s1 string, s2 string) bool {
 
 	for right := len(s1); right < len(s2); right++ {
 		count2[s2[right]-'a']++
-
 		count2[s2[right-len(s1)]-'a']--
 
 		if count1 == count2 {
 			return true
 		}
 	}
-
 	return false
 }
