@@ -73,3 +73,39 @@ func PermutationInString2(s1 string, s2 string) bool {
 	}
 	return false
 }
+
+// Day 3: Longest Repeating Character Replacement LongeestRepeatingCharacterReplcament
+func function(s string, k int) int {
+	if len(s) < k {
+		return len(s)
+	}
+
+	left := 0
+	var count [26]int
+	maxFreq := 0
+	result := 0
+	for right := 0; right < len(s); right++ {
+		index := s[right] - 'A'
+		count[index]++
+
+		if count[index] > maxFreq {
+			maxFreq = count[index]
+		}
+
+		windowSize := right - left + 1
+
+		for windowSize-maxFreq > k {
+			count[s[left]-'A']--
+			left++
+
+			windowSize = right - left + 1
+		}
+
+		if windowSize > result {
+			result = windowSize
+		}
+
+	}
+
+	return result
+}
