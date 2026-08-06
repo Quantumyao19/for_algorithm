@@ -74,12 +74,8 @@ func PermutationInString2(s1 string, s2 string) bool {
 	return false
 }
 
-// Day 3: Longest Repeating Character Replacement LongeestRepeatingCharacterReplcament
-func function(s string, k int) int {
-	if len(s) < k {
-		return len(s)
-	}
-
+// Day 3: Longest Repeating Character Replacement
+func LongeestRepeatingCharacterReplcament(s string, k int) int {
 	left := 0
 	var count [26]int
 	maxFreq := 0
@@ -93,19 +89,60 @@ func function(s string, k int) int {
 		}
 
 		windowSize := right - left + 1
-
 		for windowSize-maxFreq > k {
 			count[s[left]-'A']--
 			left++
 
 			windowSize = right - left + 1
 		}
-
 		if windowSize > result {
 			result = windowSize
 		}
+	}
+	return result
+}
 
+// Day 4: Minimum Window Substring
+func minWindow(s string, t string) string {
+	if len(s) == 0 || len(t) == 0 {
+		return ""
 	}
 
+	need := make(map[byte]int)
+	for i := 0; i < len(t); i++ {
+		need[t[i]]++
+	}
+
+	window := make(map[byte]int)
+	left := 0
+	valid := 0
+	result := ""
+
+	for right := 0; right < len(s); right++ {
+		c := s[right]
+
+		if _, ok := need[c]; ok {
+			window[c]++
+			if window[c] == need[c] {
+				valid++
+			}
+		}
+
+		for valid == len(need) {
+			if result == "" || right-left+1 < len(result) {
+				result = s[left : right+1]
+			}
+
+			leftChar := s[left]
+			left++
+
+			if _, ok := need[leftChar]; ok {
+				if window[leftChar] == need[leftChar] {
+					valid--
+				}
+				window[leftChar]--
+			}
+		}
+	}
 	return result
 }
