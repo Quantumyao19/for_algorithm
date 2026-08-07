@@ -32,4 +32,55 @@ func ValidParentheses(s string) bool {
 }
 
 // Day 2: Min Stack
-func MinStack() {}
+type MinStack struct {
+	Stack    []int
+	MinStack []int
+}
+
+func Constructor() MinStack {
+	return MinStack{
+		Stack:    []int{},
+		MinStack: []int{},
+	}
+}
+
+func (m *MinStack) Push(val int) {
+	m.Stack = append(m.Stack, val)
+	if len(m.MinStack) == 0 || val <= m.GetMin() {
+		m.MinStack = append(m.MinStack, val)
+	}
+}
+
+func (m *MinStack) Pop() {
+	val := m.Stack[len(m.Stack)-1]
+	m.Stack = m.Stack[:len(m.Stack)-1]
+
+	if val == m.GetMin() {
+		m.MinStack = m.MinStack[:len(m.MinStack)-1]
+	}
+}
+
+func (m *MinStack) Top() int {
+	return m.Stack[len(m.Stack)-1]
+}
+
+func (m *MinStack) GetMin() int {
+	return m.MinStack[len(m.MinStack)-1]
+}
+
+// Day 3: Daily Temperatures
+func DailyTemperatures(tem []int) []int {
+	var stack []int
+	answer := make([]int, len(tem))
+
+	for i := 0; i < len(tem); i++ {
+		for len(stack) > 0 && tem[i] > tem[stack[len(stack)-1]] {
+			prev := stack[len(stack)-1]
+			stack = stack[:len(stack)-1]
+			answer[prev] = i - prev
+		}
+
+		stack = append(stack, i)
+	}
+	return answer
+}
