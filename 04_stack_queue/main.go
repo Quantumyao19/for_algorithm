@@ -103,7 +103,7 @@ func LargestRectangleInHistogram(heights []int) int {
 			stack = stack[:len(stack)-1]
 			height := heights[heightIndex]
 
-			width := 1
+			width := i
 
 			if len(stack) > 0 {
 				width = i - stack[len(stack)-1] - 1
@@ -115,8 +115,9 @@ func LargestRectangleInHistogram(heights []int) int {
 				maxArea = area
 			}
 		}
-
-		stack = append(stack, i)
+		if i < len(heights) {
+			stack = append(stack, i)
+		}
 	}
 	return maxArea
 }
