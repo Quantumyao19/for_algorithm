@@ -84,3 +84,40 @@ func DailyTemperatures(tem []int) []int {
 	}
 	return answer
 }
+
+// Day 4: Largest Rectangle in Histogram
+func LargestRectangleInHistogram(heights []int) int {
+	maxArea := 0
+	stack := []int{}
+
+	for i := 0; i <= len(heights); i++ {
+		var current int
+		if i == len(heights) {
+			current = 0
+		} else {
+			current = heights[i]
+		}
+
+		for len(stack) > 0 && current < heights[stack[len(stack)-1]] {
+			heightIndex := stack[len(stack)-1]
+			stack = stack[:len(stack)-1]
+			height := heights[heightIndex]
+
+			width := i
+
+			if len(stack) > 0 {
+				width = i - stack[len(stack)-1] - 1
+			}
+
+			area := height * width
+
+			if area > maxArea {
+				maxArea = area
+			}
+		}
+		if i < len(heights) {
+			stack = append(stack, i)
+		}
+	}
+	return maxArea
+}
